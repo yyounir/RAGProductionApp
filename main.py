@@ -58,7 +58,10 @@ async def rag_ingest_pdf(ctx: inngest.Context):
 
 @inngest_client.create_function(
     fn_id="RAG: Query PDF",
-    trigger=inngest.TriggerEvent(event="rag/query_pdf_ai")
+    trigger = inngest.TriggerEvent(event="rag/query_pdf_ai"),
+    rate_limit = inngest.RateLimit(
+        limit = 3, period = datetime.timedelta(hours = 2), key = "event.data.source_id",
+    )
 )
 async def rag_query_pdf_ai(ctx: inngest.Context):
     def _search(question: str, top_k: int = 5) -> RAGSearchResult:
@@ -71,7 +74,7 @@ async def rag_query_pdf_ai(ctx: inngest.Context):
     top_k = int(ctx.event.data.get("top_k", 5))
 
     found = await ctx.step.run("embed-and-search", lambda: _search(question, top_k), output_type=RAGSearchResult)
-    
+
 
     context_block = "\n\n".join(f"- {c}" for c in found.contexts)
     user_content = (
