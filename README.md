@@ -1,6 +1,6 @@
 <div align="center">
   
-  # Ask Filebot - RAG AI Chatbot
+  # 🗃️ Ask Filebot - RAG AI Chatbot
 
   **A basic retrieval-augmented generation (RAG) AI prototype into a production-ready application with Gemini API. Uses the inngest orchestration platform for rate-limiting, observability, and automated retries, and PDF loading / storage layer with Qdrant.**
   
